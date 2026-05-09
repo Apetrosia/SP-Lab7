@@ -1,0 +1,59 @@
+@page
+@model AboutModel
+@{
+    ViewData["Title"] = "About";
+}
+
+<div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+    <div class="text-center mb-16 mt-16">
+        <div class="flex items-center justify-center space-x-4">
+            <img src="~/images/green-toad-logo.svg" alt="Greenswamp Logo" class="h-20 w-20">
+            <h1 class="text-5xl font-bold text-swamp-900">About Our Pond</h1>
+        </div>
+        <p class="mt-4 text-lg text-swamp-700 max-w-2xl mx-auto">
+            Where campus connections grow like lily pads!
+        </p>
+    </div>
+
+    <section class="mb-16">
+        <div class="bg-white rounded-xl shadow-sm p-8">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="flex-1">
+                    <h2 class="text-3xl font-bold text-swamp-900 mb-4">From Tadpole to Toad</h2>
+                    <p class="text-swamp-700 leading-relaxed">
+                        Greenswamp began as a class project in 2023 when our founder,
+                        Professor Ribbit, noticed students hopping between too many apps.
+                        We wanted to create one cozy digital pond where campus life could flourish.
+                        🐸
+                    </p>
+                </div>
+                <img src="~/images/professor-about.png" alt="Professor Ribbit"
+                     class="w-full md:w-1/2 rounded-lg shadow-sm">
+            </div>
+        </div>
+    </section>
+
+    <section class="grid md:grid-cols-3 gap-8 mb-16">
+        <div class="bg-white p-6 rounded-xl">
+            <div class="w-12 h-12 flex items-center justify-center">
+                <!-- SVG ... -->
+            </div>
+            <h3 class="mt-4 text-xl font-semibold text-swamp-900">Grow Together</h3>
+            <p class="mt-2 text-swamp-600">Connect across departments, clubs, and dorms</p>
+        </div>
+
+    </section>
+
+    <section class="mb-16">
+        <h2 class="text-3xl font-bold text-swamp-900 mb-8 text-center">Our Swamp Keepers</h2>
+        <div class="grid md:grid-cols-3 gap-6">
+            <div class="bg-white p-6 rounded-xl shadow-sm text-center">
+                <img src="https://i.pravatar.cc/150?img=1" alt="Team member" class="w-32 h-32 rounded-full mx-auto mb-4">
+                <h3 class="font-semibold text-swamp-900">Lily Padman</h3>
+                <p class="text-sm text-swamp-600">Chief Pond Officer</p>
+                <p class="mt-2 text-swamp-700 text-sm">"Keeping the algae at bay since '22"</p>
+            </div>
+        </div>
+    </section>
+</div>
