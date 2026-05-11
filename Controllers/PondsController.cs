@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Greenswamp.Controllers
 {
     [Route("ponds")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class PondsController : Controller
     {
         private readonly ApplicationDbContext _context;

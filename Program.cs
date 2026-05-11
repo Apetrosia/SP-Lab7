@@ -17,7 +17,12 @@ using System.Text.Json.Serialization;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddControllersWithViews();
+builder.Services.AddControllersWithViews()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+    });
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite("Data Source=App_Data/greenswamp.db"));
 
@@ -46,13 +51,6 @@ builder.Services.AddAuthentication(options =>
             ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "GreenSwampIssuer",
             IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "superSecretKey@345V$y1Verys3cr3t#"))
         };
-    });
-
-builder.Services.AddControllersWithViews()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        options.JsonSerializerOptions.WriteIndented = true;
     });
 
 // Swagger support
@@ -149,6 +147,7 @@ app.Run();
 
 [Route("/subscribe")]
 [ApiController]
+[ApiExplorerSettings(IgnoreApi = true)]
 public class SubscribeController : ControllerBase
 {
     private readonly IEmailService _emailService;

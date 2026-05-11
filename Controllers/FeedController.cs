@@ -6,6 +6,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace GreenSwampApp.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class FeedController : Controller
     {
         private readonly ApplicationDbContext _context;

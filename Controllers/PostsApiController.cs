@@ -30,7 +30,6 @@ namespace GreenSwampApp.Controllers
         {
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
-            // Note: In a real app, verify hashed password instead
             if (user == null || user.PasswordHash != password)
                 return Unauthorized();
 
@@ -55,16 +54,6 @@ namespace GreenSwampApp.Controllers
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token)
             });
-        }
-
-        // GET: api/PostsApi
-        [HttpGet]
-        public async Task<ActionResult<IEnumerable<Post>>> GetPosts()
-        {
-            return await _context.Posts
-                .Include(p => p.User)
-                .Include(p => p.Interactions)
-                .ToListAsync();
         }
 
         // GET: api/PostsApi/5

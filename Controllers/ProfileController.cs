@@ -7,6 +7,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Greenswamp.Controllers
 {
     [Route("profile")]
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class ProfileController : Controller
     {
         private readonly ApplicationDbContext _context;

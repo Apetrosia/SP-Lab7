@@ -10,6 +10,7 @@ using System.Threading.Tasks;
 
 namespace GreenSwampApp.Controllers
 {
+    [ApiExplorerSettings(IgnoreApi = true)]
     public class AccountController : Controller
     {
         private readonly ApplicationDbContext _context;
