@@ -49,7 +49,8 @@ builder.Services.AddAuthentication(options =>
             ValidateAudience = true,
             ValidAudience = builder.Configuration["Jwt:Audience"] ?? "GreenSwampAudience",
             ValidIssuer = builder.Configuration["Jwt:Issuer"] ?? "GreenSwampIssuer",
-            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "superSecretKey@345V$y1Verys3cr3t#"))
+            IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"] ?? "superSecretKey@345V$y1Verys3cr3t#")),
+            ClockSkew = TimeSpan.Zero
         };
     });
 

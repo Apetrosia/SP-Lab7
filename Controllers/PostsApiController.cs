@@ -47,7 +47,7 @@ namespace GreenSwampApp.Controllers
                 issuer: _config["Jwt:Issuer"] ?? "GreenSwampIssuer",
                 audience: _config["Jwt:Audience"] ?? "GreenSwampAudience",
                 claims: claims,
-                expires: DateTime.Now.AddMinutes(120),
+                expires: DateTime.Now.AddMinutes(1),
                 signingCredentials: credentials);
 
             return Ok(new
@@ -132,7 +132,7 @@ namespace GreenSwampApp.Controllers
                 UserId = userId,
                 Content = content,
                 MediaUrl = mediaUrl ?? string.Empty,
-                MediaType = string.Empty, // Можно добавить как параметр, если понадобится
+                MediaType = string.Empty,
                 CreatedAt = DateTime.UtcNow
             };
 
