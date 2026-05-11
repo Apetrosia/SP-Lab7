@@ -26,12 +26,12 @@ namespace GreenSwampApp.Controllers
         // POST: api/PostsApi/token
         [HttpPost("token")]
         [AllowAnonymous]
-        public async Task<IActionResult> GenerateToken([FromBody] TokenRequestModel request)
+        public async Task<IActionResult> GenerateToken([FromQuery] string username, [FromQuery] string password)
         {
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == request.Username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == username);
 
             // Note: In a real app, verify hashed password instead
-            if (user == null || user.PasswordHash != request.Password)
+            if (user == null || user.PasswordHash != password)
                 return Unauthorized();
 
             var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["Jwt:Key"] ?? "superSecretKey@345V$y1Verys3cr3t#"));
@@ -87,13 +87,8 @@ namespace GreenSwampApp.Controllers
         // PUT: api/PostsApi/5
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutPost(long id, Post post)
+        public async Task<IActionResult> PutPost(long id, [FromQuery] string content, [FromQuery] string? mediaUrl)
         {
-            if (id != post.PostId)
-            {
-                return BadRequest();
-            }
-
             var existingPost = await _context.Posts.FindAsync(id);
             if(existingPost == null) {
                 return NotFound();
@@ -105,8 +100,11 @@ namespace GreenSwampApp.Controllers
                 return Forbid();
             }
 
-            existingPost.Content = post.Content;
-            // Removed Title mapping because Post model doesn't have a Title property
+            existingPost.Content = content;
+            if (mediaUrl != null)
+            {
+                existingPost.MediaUrl = mediaUrl;
+            }
 
             _context.Entry(existingPost).State = EntityState.Modified;
 
@@ -132,15 +130,22 @@ namespace GreenSwampApp.Controllers
         // POST: api/PostsApi
         [Authorize(AuthenticationSchemes = "Bearer")]
         [HttpPost]
-        public async Task<ActionResult<Post>> PostPost(Post post)
+        public async Task<ActionResult<Post>> PostPost([FromQuery] string content, [FromQuery] string? mediaUrl)
         {
             var userIdStr = User.FindFirst("userId")?.Value;
-            if (userIdStr != null && int.TryParse(userIdStr, out int userId))
+            if (userIdStr == null || !int.TryParse(userIdStr, out int userId))
             {
-                post.UserId = userId;
+                return Unauthorized();
             }
 
-            post.CreatedAt = DateTime.UtcNow;
+            var post = new Post
+            {
+                UserId = userId,
+                Content = content,
+                MediaUrl = mediaUrl ?? string.Empty,
+                MediaType = string.Empty, // Можно добавить как параметр, если понадобится
+                CreatedAt = DateTime.UtcNow
+            };
 
             _context.Posts.Add(post);
             await _context.SaveChangesAsync();
@@ -175,12 +180,6 @@ namespace GreenSwampApp.Controllers
         {
             return _context.Posts.Any(e => e.PostId == id);
         }
-    }
-
-    public class TokenRequestModel
-    {
-        public string Username { get; set; }
-        public string Password { get; set; }
     }
 }
 
